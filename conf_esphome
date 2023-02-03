@@ -1,0 +1,182 @@
+##############################################################
+######################## SERVIDOR WEB ########################
+##############################################################
+web_server:
+  port: 80
+  auth:
+    username: valmir
+    password: "6394"
+##############################################################
+
+##############################################################
+################# INTENSIDADE DO SINAL WIFI ##################
+##############################################################
+# Example configuration entry
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor"
+    update_interval: 60s
+###############################################################
+
+###############################################################
+################# INFORMAÇOES DA REDE WIFI#####################
+###############################################################
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: ESP IP Address
+    ssid:
+      name: ESP Connected SSID
+    bssid:
+      name: ESP Connected BSSID
+###############################################################
+
+
+###############################################################
+#########################ILUMINAÇÃO ###########################
+###############################################################
+#---------LUZ1--------
+switch:
+  - platform: gpio
+    pin: GPIO15
+    name: "LUZ1"
+    id: relay1
+    interlock: [relay1]
+    inverted: yes
+#--------LUZ2--------
+  - platform: gpio
+    pin: GPIO2
+    name: "LUZ2"
+    id: relay2
+    interlock: [relay2]
+    inverted: yes
+#--------LUZ3--------
+  - platform: gpio
+    pin: GPIO4
+    name: "LUZ3"
+    id: relay3
+    interlock: [relay3]
+    inverted: yes
+#-------LUZ4----------
+  - platform: gpio
+    pin: GPIO16
+    name: "LUZ4"
+    id: relay4
+    interlock: [relay4]
+    inverted: yes
+#------LUZ5----------
+  - platform: gpio
+    pin: GPIO17
+    name: "LUZ5"
+    id: relay5
+    interlock: [relay5]
+    inverted: yes
+#--------LUZ6---------
+  - platform: gpio
+    pin: GPIO5
+    name: "LUZ6"
+    id: relay6
+    interlock: [relay6]
+    inverted: yes
+#-------LUZ7----------
+  - platform: gpio
+    pin: GPIO18
+    name: "LUZ7"
+    id: relay7
+    interlock: [relay7]
+    inverted: yes
+#-------LUZ8----------
+  - platform: gpio
+    pin: GPIO19
+    name: "LUZ8"
+    id: relay8
+    interlock: [relay8]
+    inverted: yes
+###############################################################
+
+###############################################################    
+#################### INTERUPTORES##############################
+###############################################################
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 13
+      mode: INPUT_PULLUP
+      inverted: True
+    name: INTERUPTOR 1
+    on_press:
+      - switch.toggle: relay1
+#-----INTERUPTOR 2-----
+  - platform: gpio
+    pin:
+      number: 12
+      mode: INPUT_PULLUP
+      inverted: True
+    name: INTERUPTOR 2
+    on_press:
+      - switch.toggle: relay2
+#-----INTERUPTOR 3------
+  - platform: gpio
+    pin:
+      number: 14
+      mode: INPUT_PULLUP
+      inverted: True
+    name: INTERUPTOR 3
+    on_press:
+      - switch.toggle: relay3
+#-----INTERUPTOR 4------
+  - platform: gpio
+    pin:
+      number: 27
+      mode: INPUT_PULLUP
+      inverted: True
+    name: INTERUPTOR 4
+    
+    on_press:
+      - switch.toggle: relay4
+#-----INTERUPTOR 5------
+  - platform: gpio
+    pin:
+      number: 26
+      mode: INPUT_PULLUP
+      inverted: True
+    name: INTERUPTOR 5
+    on_press:
+      - switch.toggle: relay5
+#-----INTERUPTOR 6------
+  - platform: gpio
+    pin:
+      number: 25
+      mode: INPUT_PULLUP
+      inverted: True
+    name: INTERUPTOR 6
+    on_press:
+      - switch.toggle: relay6
+#-----INTERUPTOR 1------
+  - platform: gpio
+    pin:
+      number: 33
+      mode: INPUT_PULLUP
+      inverted: True
+    name: INTERUPTOR 7
+    on_press:
+      - switch.toggle: relay7
+#-----INTERUPTOR 1------
+
+  - platform: gpio
+    pin:
+      number: 32
+      mode: INPUT_PULLUP
+      inverted: True
+    name: INTERUPTOR 8
+    on_press:
+      - switch.toggle: relay8
+###############################################################
+
+################ SENSOR ULTRA SONICO ##########################
+ # Example configuration entry
+  - platform: ultrasonic
+    trigger_pin: 19
+    echo_pin: 20
+    name: "Ultrasonic Sensor"
+##############################################################
