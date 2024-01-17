@@ -1,0 +1,95 @@
+esphome:
+  name: agua
+  friendly_name: agua
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "tWgwDNiWpW60kM/GhGoVfNVpUpzKw3CSxFtQsUf8AY8="
+
+ota:
+  password: "5a00121d1f3a42833afa6fb948b0806c"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Agua Fallback Hotspot"
+    password: "5irRvfkXVV3E"
+
+captive_portal:
+##############################################################
+######################## SERVIDOR WEB ########################
+##############################################################
+web_server:
+  port: 80
+  auth:
+    username: valmir
+    password: "6394"
+
+###############################################################
+################# INFORMAÇOES DA REDE WIFI#####################
+###############################################################
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: ESP IP Address
+    ssid:
+      name: ESP Connected SSID
+    bssid:
+      name: ESP Connected BSSID
+##############################################################
+################# INTENSIDADE DO SINAL WIFI ##################
+#=====================================SENSOR====================================
+sensor:
+#=========================================================================
+##############################SENSOR DE SINAL WWFI ESP###########################
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor"
+    update_interval: 60s
+###############################################################
+
+#sensor:
+#---------------------------------------------------------------------------------------#
+#-----------------------MEDIDOR DE PULSO HALL -----------------------#
+  - platform: pulse_counter
+    id: water_pulse
+    pin: GPIO23
+    internal: true
+    name: "Pulse Counter"
+    update_interval: 1s
+    total:
+      name: 'Pulse agua'
+    filters:
+    - lambda: |-
+        static float total_pulse = 0.0;
+        total_pulse += x * 1 /30.0;
+        id(lifetime_counter).publish_state(total_pulse / 608);
+        return x ;
+#-----------------------CONSUMO DE AGUA EM LITROS -------------------#
+  - platform: template
+    id: lifetime_counter
+    name: "Consumo de agua "
+    unit_of_measurement: "L"
+    icon: "mdi:shower-head"
+    accuracy_decimals: 1
+#--------------------VASAÕ DE AGUA POR SEGUNDOS---------------------#
+  - platform: template
+    name: "vasao de agua"
+    id: water_flow_rate
+    accuracy_decimals: 1
+    unit_of_measurement: "L/min"
+    icon: "mdi:water"
+    lambda: return (id(water_pulse).state /608);
+    update_interval: 1s
+#--------------------CONSUMO EM METROS CUBICO----------------------#
