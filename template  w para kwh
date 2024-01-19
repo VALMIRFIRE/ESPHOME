@@ -1,0 +1,7 @@
+template:
+  - sensor:
+    - name: "Comsumo de energia kwh"
+      unit_of_measurement: "kW"
+      device_class: "energy"
+      state_class: "total_increasing"
+      state: "{{ states('sensor.smart_din_rail_meter_at4p_potencia') | float /1000 }}"
